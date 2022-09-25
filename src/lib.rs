@@ -1,3 +1,13 @@
+#![forbid(
+    clippy::pedantic,
+    clippy::perf,
+    clippy::style,
+    clippy::cargo,
+    clippy::nursery,
+    warnings,
+    rust_2018_idioms
+)]
+
 mod bp;
 mod cartesian_tree;
 mod util;
@@ -17,8 +27,8 @@ impl Rmq {
 }
 
 impl<T: Ord> FromIterator<T> for Rmq {
-    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Rmq {
-        Rmq {
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        Self {
             cartesian_tree: CartesianTree::from_iter(iter),
         }
     }

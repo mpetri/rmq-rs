@@ -3,14 +3,14 @@ use bitvec::prelude::*;
 mod excess_tables;
 mod rank_select;
 
-use excess_tables::*;
+use excess_tables::{FWD_EXC, FWD_MIN, FWD_MIN_IDX};
 
-pub(crate) type BitVec64 = BitVec<u64, Lsb0>;
+pub type BitVec64 = BitVec<u64, Lsb0>;
 
 const BP_BLOCK_SIZE: usize = 4;
 const BP_SUPERBLOCK_SIZE: usize = 32;
 
-pub(crate) struct BpBitVec {
+pub struct BpBitVec {
     bv: BitVec64,
     select0_hints: Vec<u64>,
     block_rank_pairs: Vec<u64>,
@@ -217,7 +217,7 @@ impl BpBitVec {
                 excess,
                 min_excess,
                 min_excess_idx,
-            )
+            );
         }
     }
 

@@ -1,7 +1,7 @@
 use super::BitVec64;
 use super::BpBitVec;
 
-pub(crate) const BLOCK_SIZE: usize = 8; // in 64bit words
+pub const BLOCK_SIZE: usize = 8; // in 64bit words
 const SELECT_ONES_PER_HINT: usize = 64 * BLOCK_SIZE * 2; // must be > block_size * 64
 const SELECT_ZEROS_PER_HINT: usize = SELECT_ONES_PER_HINT;
 
@@ -84,7 +84,7 @@ impl BpBitVec {
     }
 }
 
-pub(crate) fn build_rank_pairs(bitvec: &BitVec64) -> Vec<u64> {
+pub fn build_rank_pairs(bitvec: &BitVec64) -> Vec<u64> {
     let mut block_rank_pairs = Vec::new();
     let mut next_rank = 0u64;
     let mut cur_subrank = 0u64;
@@ -122,7 +122,7 @@ pub(crate) fn build_rank_pairs(bitvec: &BitVec64) -> Vec<u64> {
     block_rank_pairs
 }
 
-pub(crate) fn build_select0_hints(block_rank_pairs: &[u64]) -> Vec<u64> {
+pub fn build_select0_hints(block_rank_pairs: &[u64]) -> Vec<u64> {
     let num_blocks = block_rank_pairs.len() / 2 - 1;
     let mut select0_hints = Vec::new();
     let mut cur_zeros_threshold = SELECT_ZEROS_PER_HINT as u64;

@@ -1,7 +1,7 @@
 use crate::bp::BitVec64;
 use crate::bp::BpBitVec;
 
-pub(crate) struct CartesianTree {
+pub struct CartesianTree {
     bp: BpBitVec,
 }
 
@@ -26,7 +26,6 @@ impl CartesianTree {
             std::ops::Bound::Unbounded => self.len() - 1,
         };
         let range = range_start..=range_end;
-        dbg!(&range);
 
         if range.is_empty() {
             return None;
@@ -35,36 +34,31 @@ impl CartesianTree {
             return Some(*range.start());
         }
 
-        let n = self.len();
+        let length = self.len();
 
-        let t = self.bp.select0(n - range.end() - 1);
-        let exc_t = (t - 2 * (n - range.end() - 1)) as isize;
+        let t = self.bp.select0(length - range.end() - 1);
+        let exc_t = (t - 2 * (length - range.end() - 1)) as isize;
 
         assert!(exc_t - 1 == self.bp.excess(t + 1));
 
-        let x = self.bp.select0(n - range.end());
-        let y = self.bp.select0(n - range.start());
+        let x = self.bp.select0(length - range.end());
+        let y = self.bp.select0(length - range.start());
 
         let (w, exc_w) = self.bp.excess_rmq(x..=y);
 
-        dbg!(&w);
-        dbg!(&exc_w);
-
         let rank0_w = (w - exc_w as usize) / 2;
-
-        dbg!(&rank0_w);
 
         if exc_w >= exc_t - 1 {
             Some(*range.end())
         } else {
-            Some(n - rank0_w)
+            Some(length - rank0_w)
         }
     }
 }
 
 impl<T: Ord> FromIterator<T> for CartesianTree {
-    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> CartesianTree {
-        let mut builder = CartesianTree::builder();
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        let mut builder = Self::builder();
         for item in iter {
             builder.push(item);
         }
@@ -78,8 +72,8 @@ struct CartesianTreeBuilder<T> {
 }
 
 impl<T: Ord> CartesianTreeBuilder<T> {
-    pub fn new() -> CartesianTreeBuilder<T> {
-        CartesianTreeBuilder {
+    pub fn new() -> Self {
+        Self {
             bp: BitVec64::new(),
             stack: Vec::new(),
         }
