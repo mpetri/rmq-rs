@@ -9,7 +9,7 @@
 
 This crate implements a succinct data structure to solve the Range Minimum Query (RMQ) problem in constant time and linear space.
 
-This code was derived from a succinct version of RMQ, implemented by Giuseppe Ottaviano's succinct c++ library: https://github.com/ot/succinct.
+This code was derived (almost verbatim) from a succinct version of RMQ, implemented by Giuseppe Ottaviano's succinct c++ library: https://github.com/ot/succinct.
 
 # What is RMQ (taken from Wikipedia)
 
@@ -27,7 +27,6 @@ let rmq = Rmq::from_iter(a);
 let res = rmq.range_minimum(2..=7);
 assert_eq!(res.unwrap(),6);
 ```
-
 
 # License
 
