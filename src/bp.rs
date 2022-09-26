@@ -1,5 +1,4 @@
 use bitvec::prelude::*;
-
 mod excess_tables;
 mod rank_select;
 
@@ -10,6 +9,8 @@ pub type BitVec64 = BitVec<u64, Lsb0>;
 const BP_BLOCK_SIZE: usize = 4;
 const BP_SUPERBLOCK_SIZE: usize = 32;
 
+#[derive(Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct BpBitVec {
     bv: BitVec64,
     select0_hints: Vec<u64>,

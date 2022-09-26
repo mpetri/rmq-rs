@@ -4,6 +4,8 @@ mod util;
 
 use cartesian_tree::CartesianTree;
 
+#[derive(Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Rmq {
     cartesian_tree: CartesianTree,
 }

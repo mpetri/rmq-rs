@@ -15,7 +15,7 @@ This code was derived from a succinct version of RMQ, implemented by Giuseppe Ot
 
 In computer science, a range minimum query (RMQ) solves the problem of finding the minimal value in a sub-array of an array of comparable objects. Range minimum queries have several use cases in computer science, such as the lowest common ancestor problem and the longest common prefix problem (LCP). 
 
-For example, when A = [0,5,2,5,4,3,1,6,3], then the answer to the range minimum query for the sub-array A[3...8] = [2,5,4,3,1,6] is 7, as A[7] = 1. 
+For example, when `A = [0,5,2,5,4,3,1,6,3]`, then the answer to the range minimum query for the sub-array `A[2...7] = [2,5,4,3,1,6]` is `6`, as `A[6] = 1`. 
 
 # Usage
 
@@ -24,8 +24,8 @@ use range_minimum_query::Rmq;
 
 let a = [0,5,2,5,4,3,1,6,3];
 let rmq = Rmq::from_iter(a);
-let res = rmq.range_minimum(3..=8);
-assert_eq!(res.unwrap(),7);
+let res = rmq.range_minimum(2..=7);
+assert_eq!(res.unwrap(),6);
 ```
 
 

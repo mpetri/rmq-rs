@@ -1,6 +1,9 @@
 use crate::bp::BitVec64;
 use crate::bp::BpBitVec;
 
+#[derive(Debug)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+
 pub struct CartesianTree {
     bp: BpBitVec,
 }
