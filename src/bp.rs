@@ -3,7 +3,7 @@ use bitvec::prelude::*;
 mod excess_tables;
 mod rank_select;
 
-use excess_tables::{FWD_EXC, FWD_MIN, FWD_MIN_IDX};
+use self::excess_tables::{FWD_EXC, FWD_MIN, FWD_MIN_IDX};
 
 pub type BitVec64 = BitVec<u64, Lsb0>;
 
@@ -344,19 +344,16 @@ impl BpBitVec {
 }
 
 fn build_min_tree(bitvec: &BitVec64, block_rank_pairs: &[u64]) -> (u64, Vec<i16>, Vec<isize>) {
-    fn get_block_excess(block: u64, block_rank_pairs: &[u64]) -> isize {
-        let sub_block_idx = block * BP_BLOCK_SIZE as u64;
-        let block_pos = sub_block_idx * 64;
-
-        fn block_rank1(block: u64, block_rank_pairs: &[u64]) -> u64 {
+    const fn get_block_excess(block: u64, block_rank_pairs: &[u64]) -> isize {
+        const fn block_rank1(block: u64, block_rank_pairs: &[u64]) -> u64 {
             block_rank_pairs[block as usize * 2] as u64
         }
 
-        fn sub_block_ranks(sub_block: u64, block_rank_pairs: &[u64]) -> u64 {
+        const fn sub_block_ranks(sub_block: u64, block_rank_pairs: &[u64]) -> u64 {
             block_rank_pairs[sub_block as usize * 2 + 1] as u64
         }
 
-        fn sub_block_rank(sub_block: u64, block_rank_pairs: &[u64]) -> u64 {
+        const fn sub_block_rank(sub_block: u64, block_rank_pairs: &[u64]) -> u64 {
             let mut r: u64 = 0;
             let block = sub_block / rank_select::BLOCK_SIZE as u64;
             r += block_rank1(block, block_rank_pairs);
@@ -364,6 +361,8 @@ fn build_min_tree(bitvec: &BitVec64, block_rank_pairs: &[u64]) -> (u64, Vec<i16>
             r += sub_block_ranks(block, block_rank_pairs) >> ((7 - left) * 9) & 0x1FF;
             r
         }
+        let sub_block_idx = block * BP_BLOCK_SIZE as u64;
+        let block_pos = sub_block_idx * 64;
 
         2 * sub_block_rank(sub_block_idx, block_rank_pairs) as isize - block_pos as isize
     }

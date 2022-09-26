@@ -1,6 +1,15 @@
 [package]
 name = "range_minimum_query"
 version = "0.1.0"
+description = "Range Minimum Query (RMQ) is used on arrays to find the position of an element with the minimum value between two specified indices."
+repository = "https://github.com/mpetri/rmq-rs"
+homepage  = "https://github.com/mpetri/rmq-rs"
+documentation = "https://docs.rs/range_minimum_query"
+authors = ["Matthias Petri <Matthias.Petri@gmail.com>"]
+readme = "README.md"
+license = "MIT"
+keywords = ["rmq", "range_minimum_query"]
+categories = ["data-structures"]
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -10,5 +19,4 @@ proptest = "1.0.0"
 
 [dependencies]
 bitvec = "1.0.1"
-lazy_static = "1.4.0"
 

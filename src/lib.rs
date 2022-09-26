@@ -1,13 +1,3 @@
-#![forbid(
-    clippy::pedantic,
-    clippy::perf,
-    clippy::style,
-    clippy::cargo,
-    clippy::nursery,
-    warnings,
-    rust_2018_idioms
-)]
-
 mod bp;
 mod cartesian_tree;
 mod util;
@@ -36,9 +26,7 @@ impl<T: Ord> FromIterator<T> for Rmq {
 
 #[cfg(test)]
 mod tests {
-    use std::cmp::Reverse;
 
-    use super::*;
     use proptest::prelude::*;
 
     proptest! {
@@ -47,7 +35,7 @@ mod tests {
             elems in prop::collection::vec(any::<u16>(), 1..1000)
         ) {
             let other = elems.clone();
-            let rmq = Rmq::from_iter(other);
+            let rmq = super::Rmq::from_iter(other);
 
             let min_pos = rmq.range_minimum(0..elems.len()).unwrap();
 
@@ -65,7 +53,7 @@ mod tests {
         ) {
             prop_assume!(start + len < elems.len());
             let other = elems.clone();
-            let rmq = Rmq::from_iter(other);
+            let rmq = super::Rmq::from_iter(other);
 
             let min_pos = rmq.range_minimum(start..(start+len)).unwrap();
 
@@ -83,7 +71,7 @@ mod tests {
         ) {
             prop_assume!(start + len < elems.len());
             let other = elems.clone();
-            let rmq = Rmq::from_iter(other.into_iter().map(Reverse));
+            let rmq = super::Rmq::from_iter(other.into_iter().map(std::cmp::Reverse));
 
             let maxpos = rmq.range_minimum(start..(start+len)).unwrap();
 
@@ -99,7 +87,7 @@ mod tests {
         ) {
             let elem_vec : Vec<u32> = elems.iter().copied().collect();
             let other = elems.clone();
-            let rmq = Rmq::from_iter(other);
+            let rmq = super::Rmq::from_iter(other);
 
             let min_pos = rmq.range_minimum(0..elems.len()).unwrap();
 
