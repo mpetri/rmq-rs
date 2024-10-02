@@ -1,6 +1,6 @@
 [package]
 name = "range_minimum_query"
-version = "0.1.0"
+version = "0.2.0"
 description = "Range Minimum Query (RMQ) is used on arrays to find the position of an element with the minimum value between two specified indices."
 repository = "https://github.com/mpetri/rmq-rs"
 homepage  = "https://github.com/mpetri/rmq-rs"

@@ -143,7 +143,7 @@ const LT_SEL: [u8; 2048] = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7,
 ];
 
-#[target_feature(enable = "bmi2")]
+#[cfg(target_feature = "bmi2")]
 pub unsafe fn select1_in_u64_bmi2(a: u64, k: u64) -> u64 {
     let i = 1 << k;
     let y = core::arch::x86_64::_pdep_u64(i, a);
@@ -213,9 +213,12 @@ pub const fn select1_in_u64_slow(x: u64, mut i: u64) -> u64 {
 }
 
 pub fn select1_in_u64(a: u64, k: u64) -> u64 {
-    if cfg!(target_feature = "bmi2") {
+    #[cfg(target_feature = "bmi2")]
+    {
         unsafe { select1_in_u64_bmi2(a, k) }
-    } else {
+    }
+    #[cfg(not(target_feature = "bmi2"))]
+    {
         select1_in_u64_slow(a, k)
     }
 }
@@ -238,6 +241,7 @@ mod tests {
 
     proptest! {
         #[test]
+        #[cfg(target_feature = "bmi2")]
         fn select1_in_u64_slow_eq_fast(data: u64) {
             let bv = BitVec::<_, Lsb0>::from_element(data);
             for (found, _one_pos) in bv.iter_ones().enumerate() {
